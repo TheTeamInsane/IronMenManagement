@@ -733,7 +733,7 @@ def donate(update: Update, context: CallbackContext):
 
         if OWNER_ID != 1356469075 and DONATION_LINK:
             update.effective_message.reply_text(
-                f"» ᴛʜᴇ ᴅᴇᴠᴇʟᴏᴩᴇʀ ᴏғ {BOT_NAME} sᴏʀᴄᴇ ᴄᴏᴅᴇ ɪs [ᴀɴᴏɴʏᴍᴏᴜs](https://t.me/always_hungry365)."
+                f"» ᴛʜᴇ ᴅᴇᴠᴇʟᴏᴩᴇʀ ᴏғ {BOT_NAME} sᴏʀᴄᴇ ᴄᴏᴅᴇ ɪs [MAṨṨΘM](https://t.me/always_hungry365)."
                 f"\n\nʙᴜᴛ ʏᴏᴜ ᴄᴀɴ ᴀʟsᴏ ᴅᴏɴᴀᴛᴇ ᴛᴏ ᴛʜᴇ ᴩᴇʀsᴏɴ ᴄᴜʀʀᴇɴᴛʟʏ ʀᴜɴɴɪɴɢ ᴍᴇ : [ʜᴇʀᴇ]({DONATION_LINK})",
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
@@ -793,7 +793,7 @@ def main():
 ㅤ๏ **ᴩʏʀᴏɢʀᴀᴍ :** `{pyrover}`
 ━━━━━━━━━━━━━
 
-ᴍᴀᴅᴇ ᴡɪᴛʜ 🖤 ʙʏ [𝝙𝗡𝗢𝗡𝗬𝗠𝗢𝗨𝗦](https://t.me/always_hungry365)""",
+ᴍᴀᴅᴇ ʙʏ [MAṨṨΘM](https://t.me/always_hungry365)""",
                 parse_mode=ParseMode.MARKDOWN,
             )
         except Unauthorized:

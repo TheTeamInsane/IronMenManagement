@@ -783,7 +783,7 @@ def main():
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
             dispatcher.bot.sendAnimation(
-                f"@Dosto_ki_Mehfil786",
+                f"@InsaneSupport365",
                 animation="https://telegra.ph/file/f996941966c7716dae4bd.mp4",
                 caption=f"""
 ㅤㅤ🥀 {BOT_NAME} ɪs ᴀʟɪᴠᴇ ʙᴀʙʏ...
@@ -800,7 +800,7 @@ def main():
             )
         except Unauthorized:
             LOGGER.warning(
-                f"Bot isn't able to send message to @Dosto_ki_Mehfil786, go and check!"
+                f"Bot isn't able to send message to @InsaneSupport365, go and check!"
             )
         except BadRequest as e:
             LOGGER.warning(e.message)

@@ -477,7 +477,7 @@ def Source_about_callback(update: Update, context: CallbackContext):
 *ʜᴇʀᴇ ɪs ᴍʏ sᴏᴜʀᴄᴇ ᴄᴏᴅᴇ :* [ɢɪᴛʜᴜʙ](https://github.com/TheTeamInsane/IronMenManagement)
 
 {BOT_NAME} ɪs ʟɪᴄᴇɴsᴇᴅ ᴜɴᴅᴇʀ ᴛʜᴇ [ᴍɪᴛ ʟɪᴄᴇɴsᴇ](https://github.com/TheTeamInsane/IronMenManagement/blob/master/LICENSE).
-© 2022 - 2023 [@ᴅᴇᴠɪʟsʜᴇᴀᴠᴇɴᴍғ](https://t.me/Dosto_ki_Mehfil786), ᴀʟʟ ʀɪɢʜᴛs ʀᴇsᴇʀᴠᴇᴅ.
+© 2022 - 2023 [@InsaneSupport365](https://t.me/Dosto_ki_Mehfil786), ᴀʟʟ ʀɪɢʜᴛs ʀᴇsᴇʀᴠᴇᴅ.
 """,
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,

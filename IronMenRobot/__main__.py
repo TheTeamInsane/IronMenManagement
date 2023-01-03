@@ -104,7 +104,9 @@ buttons = [
     ],
     [
         InlineKeyboardButton(text="❄ ᴀʙᴏᴜᴛ ❄", callback_data="IronMen_"),
-        InlineKeyboardButton(text="✨ sᴜᴩᴩᴏʀᴛ ✨", url=f"https://t.me/Dosto_ki_Mehfil786"),
+        InlineKeyboardButton(
+            text="✨ sᴜᴩᴩᴏʀᴛ ✨", url=f"https://t.me/Dosto_ki_Mehfil786"
+        ),
     ],
     [
         InlineKeyboardButton(text="🥀 ᴅᴇᴠᴇʟᴏᴩᴇʀ 🥀", url=f"tg://user?id={OWNER_ID}"),

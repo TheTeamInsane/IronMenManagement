@@ -4,9 +4,10 @@ from traceback import format_exc
 from pyrogram import filters
 from pyrogram.types import Message
 
-from IronMenRobot import arq
 from IronMenRobot.utils.errors import capture_err
-from IronMenRobot import pbot as app
+from IronMenRobot import arq, pbot as pgram
+
+Q_CMD = filters.command(["quote", "q"])
 
 
 async def quotify(messages: list):
@@ -24,7 +25,7 @@ def getArg(message: Message) -> str:
     return arg
 
 
-def isArgInt(message: Message) -> bool:
+def isArgInt(message: Message) -> list:
     count = getArg(message)
     try:
         count = int(count)
@@ -33,38 +34,39 @@ def isArgInt(message: Message) -> bool:
         return [False, 0]
 
 
-@app.on_message(filters.command("q"))
+@pgram.on_message(Q_CMD & ~filters.forwarded & ~filters.bot)
 @capture_err
-async def quotly_func(client, message: Message):
+async def quote(client, message: Message):
     if not message.reply_to_message:
-        return await message.reply_text("Rᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴛᴏ ǫᴜᴏᴛᴇ ɪᴛ.")
+        return await message.reply_text("**ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴛᴏ ǫᴜᴏᴛᴇ ɪᴛ.**")
     if not message.reply_to_message.text:
-        return await message.reply_text("Rᴇᴘʟɪᴇᴅ ᴍᴇssᴀɢᴇ ʜᴀs ɴᴏ ᴛᴇxᴛ, ᴄᴀɴ'ᴛ ǫᴜᴏᴛᴇ ɪᴛ .")
-    m = await message.reply_text("Quoting Messages Please wait....")
+        return await message.reply_text("**ʀᴇᴘʟɪᴇᴅ ᴍᴇssᴀɢᴇ ʜᴀs ɴᴏ ᴛᴇxᴛ, ᴄᴀɴ'ᴛ ǫᴜᴏᴛᴇ ɪᴛ.**")
+    m = await message.reply_text("**ǫᴜᴏᴛɪɴɢ ᴍᴇssᴀɢᴇs ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ**....")
     if len(message.command) < 2:
         messages = [message.reply_to_message]
-
     elif len(message.command) == 2:
         arg = isArgInt(message)
         if arg[0]:
             if arg[1] < 2 or arg[1] > 10:
-                return await m.edit("Aʀɢᴜᴍᴇɴᴛ ᴍᴜsᴛ ʙᴇ ʙᴇᴛᴡᴇᴇɴ 2-10.")
+                return await m.edit("**ᴀʀɢᴜᴍᴇɴᴛ ᴍᴜsᴛ ʙᴇ ʙᴇᴛᴡᴇᴇɴ 2-10.**")
             count = arg[1]
-            messages = await client.get_messages(
-                message.chat.id,
-                [
-                    i
-                    for i in range(
+            messages = [
+                i
+                for i in await client.get_messages(
+                    message.chat.id,
+                    range(
                         message.reply_to_message.message_id,
-                        message.reply_to_message.message_id + count,
-                    )
-                ],
-                replies=0,
-            )
+                        message.reply_to_message.message_id + (count + 5),
+                    ),
+                    replies=0,
+                )
+                if not i.empty and not i.media
+            ]
+            messages = messages[:count]
         else:
             if getArg(message) != "r":
                 return await m.edit(
-                    "Incorrect Argument, Pass **'r'** or **'INT'**, **EX:** __/q 2__"
+                    "**ɪɴᴄᴏʀʀᴇᴄᴛ ᴀʀɢᴜᴍᴇɴᴛ**, ᴘᴀss **'r'** or **'INT'**, **EX:** __/q 2__"
                 )
             reply_message = await client.get_messages(
                 message.chat.id,
@@ -73,9 +75,10 @@ async def quotly_func(client, message: Message):
             )
             messages = [reply_message]
     else:
-        await m.edit("Iɴᴄᴏʀʀᴇᴄᴛ ᴀʀɢᴜᴍᴇɴᴛ, ᴄʜᴇᴄᴋ ǫᴜᴏᴛʟʏ ᴍᴏᴅᴜʟᴇ ɪɴ ʜᴇʟᴘ sᴇᴄᴛɪᴏɴ.")
-        return
+        return await m.edit("**ɪɴᴄᴏʀʀᴇᴄᴛ ᴀʀɢᴜᴍᴇɴᴛ, ᴄʜᴇᴄᴋ ǫᴜᴏᴛʟʏ ᴍᴏᴅᴜʟᴇ ɪɴ ʜᴇʟᴘ sᴇᴄᴛɪᴏɴ**.")
     try:
+        if not message:
+            return await m.edit("**sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ**.")
         sticker = await quotify(messages)
         if not sticker[0]:
             await message.reply_text(sticker[1])
@@ -86,9 +89,20 @@ async def quotly_func(client, message: Message):
         sticker.close()
     except Exception as e:
         await m.edit(
-            "Sᴏᴍᴇᴛʜɪɴɢ ᴡʀᴏɴɢ ʜᴀᴘᴘᴇɴᴇᴅ ᴡʜɪʟᴇ ǫᴜᴏᴛɪɴɢ ᴍᴇssᴀɢᴇs,"
-            + " Tʜɪs ᴇʀʀᴏʀ ᴜsᴜᴀʟʟʏ ʜᴀᴘᴘᴇɴs ᴡʜᴇɴ ᴛʜᴇʀᴇ's ᴀ "
-            + " ᴍᴇssᴀɢᴇ ᴄᴏɴᴛᴀɪɴɪɴɢ sᴏᴍᴇᴛʜɪɴɢ ᴏᴛʜᴇʀ ᴛʜᴀɴ ᴛᴇxᴛ."
+            "sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ ᴡʜɪʟᴇ ǫᴜᴏᴛɪɴɢ ᴍᴇssᴀɢᴇs,"
+            + " ᴛʜɪs ᴇʀʀᴏʀ ᴜsᴜᴀʟʟʏ ʜᴀᴘᴘᴇɴs ᴡʜᴇɴ ᴛʜᴇʀᴇ's ᴀ "
+            + " ᴍᴇssᴀɢᴇ ᴄᴏɴᴛᴀɪɴɪɴɢ sᴏᴍᴇᴛʜɪɴɢ ᴏᴛʜᴇʀ ᴛʜᴀɴ ᴛᴇxᴛ,"
+            + " ᴏʀ ᴏɴᴇ ᴏꜰ ᴛʜᴇ ᴍᴇssᴀɢᴇs ɪɴ-ʙᴇᴛᴡᴇᴇɴ ᴀʀᴇ ᴅᴇʟᴇᴛᴇᴅ."
         )
         e = format_exc()
         print(e)
+
+
+__mod_name__ = "🙀 ǫᴜᴏᴛʟʏ"
+
+
+__help__ = """
+ *ᴍᴀᴋᴇ ǫᴜᴏᴛ ᴏғ ᴀɴɢ ᴍᴇssᴀɢᴇ ᴀɴᴅ ᴛᴜʀɴ ɪɴᴛᴏ sᴛɪᴄᴋᴇʀ...*
+ - `/q` ʀᴇᴘʟᴀʏ ᴛᴏ ᴛᴇxᴛ ᴏʀ ᴍᴇᴅɪᴀ.
+ - `/quotly` ʀᴇᴘʟᴀʏ ᴛᴏ ᴛᴇxᴛ ᴏʀ ᴍᴇᴅɪᴀ.
+"""

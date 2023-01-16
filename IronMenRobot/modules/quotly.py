@@ -40,7 +40,9 @@ async def quote(client, message: Message):
     if not message.reply_to_message:
         return await message.reply_text("**ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴛᴏ ǫᴜᴏᴛᴇ ɪᴛ.**")
     if not message.reply_to_message.text:
-        return await message.reply_text("**ʀᴇᴘʟɪᴇᴅ ᴍᴇssᴀɢᴇ ʜᴀs ɴᴏ ᴛᴇxᴛ, ᴄᴀɴ'ᴛ ǫᴜᴏᴛᴇ ɪᴛ.**")
+        return await message.reply_text(
+            "**ʀᴇᴘʟɪᴇᴅ ᴍᴇssᴀɢᴇ ʜᴀs ɴᴏ ᴛᴇxᴛ, ᴄᴀɴ'ᴛ ǫᴜᴏᴛᴇ ɪᴛ.**"
+        )
     m = await message.reply_text("**ǫᴜᴏᴛɪɴɢ ᴍᴇssᴀɢᴇs ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ**....")
     if len(message.command) < 2:
         messages = [message.reply_to_message]
@@ -75,7 +77,9 @@ async def quote(client, message: Message):
             )
             messages = [reply_message]
     else:
-        return await m.edit("**ɪɴᴄᴏʀʀᴇᴄᴛ ᴀʀɢᴜᴍᴇɴᴛ, ᴄʜᴇᴄᴋ ǫᴜᴏᴛʟʏ ᴍᴏᴅᴜʟᴇ ɪɴ ʜᴇʟᴘ sᴇᴄᴛɪᴏɴ**.")
+        return await m.edit(
+            "**ɪɴᴄᴏʀʀᴇᴄᴛ ᴀʀɢᴜᴍᴇɴᴛ, ᴄʜᴇᴄᴋ ǫᴜᴏᴛʟʏ ᴍᴏᴅᴜʟᴇ ɪɴ ʜᴇʟᴘ sᴇᴄᴛɪᴏɴ**."
+        )
     try:
         if not message:
             return await m.edit("**sᴏᴍᴇᴛʜɪɴɢ ᴡᴇɴᴛ ᴡʀᴏɴɢ**.")

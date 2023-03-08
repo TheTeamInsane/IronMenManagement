@@ -58,4 +58,4 @@ python-arq
 telegram
 gpytranslate
 yt_dlp
-shutill
+psutil==5.9.4
